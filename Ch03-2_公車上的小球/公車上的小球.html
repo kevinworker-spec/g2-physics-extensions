@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>公車上的小球</title>
+<style>*{box-sizing:border-box}html{color-scheme:light}body{margin:0;background:#f7f5f0;color:#202a32;font:22px/1.8 "PingFang TC","Microsoft JhengHei",sans-serif}header,main{max-width:1040px;margin:auto;padding:30px 28px}header{padding-bottom:0}small{color:#9b521e;font-size:16px}h1{font-size:clamp(32px,5vw,52px);line-height:1.4;margin:14px 0}h2{font-size:30px;line-height:1.5;margin:0 0 20px}p{margin:16px 0}section{margin:28px 0 64px}figure{margin:24px 0;background:white;border:1px solid #d5d9da;border-radius:12px;padding:18px}svg{display:block;width:100%;background:white;border-radius:8px}figcaption{font-size:17px;color:#56646d;line-height:1.6;margin-top:12px}.key{border-left:5px solid #b66a30;padding:12px 20px;background:#eeeae0}.eq{text-align:center;font-size:1.1em}details{margin:12px 0}summary{cursor:pointer;color:#286d8c;font-size:19px}.foot{font-size:16px;color:#647079}
+.ctl{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:0 0 12px}.ctl button{font:inherit;font-size:18px;padding:6px 16px;border:1px solid #9aa5ad;border-radius:8px;background:white;color:#202a32;cursor:pointer}.ctl button.on{background:#24333b;color:white;border-color:#24333b}.ctl .sep{width:1px;height:30px;background:#d5d9da;margin:0 4px}.read{font-size:18px;color:#24333b;margin-top:10px;min-height:1.8em}
+@media(max-width:650px){body{font-size:19px}header,main{padding:20px 16px}h2{font-size:25px}figure{padding:10px}section{margin-bottom:45px}.ctl button{font-size:16px;padding:5px 10px}}</style>
+</head>
+<body>
+<header><small>延伸</small><h1>公車一加速，<br>車上的球為什麼往後滾？</h1>
+<p>公車地板上放一顆小球（摩擦力忽略）。公車往前一加速，車上的人看見球往後滾，而且愈滾愈快。可是水平方向沒有任何東西推它。<b>沒有力，它怎麼動起來的？</b></p></header>
+<main>
+
+<figure id="fig">
+<div class="ctl">
+<button data-case="acc" class="on">加速</button><button data-case="dec">減速</button><button data-case="turn">轉彎</button>
+<span class="sep"></span>
+<button data-view="bus" class="on">車上看</button><button data-view="ground">地面看</button>
+<span class="sep"></span>
+<button id="play">▶ 播放</button><button id="reset">↺ 重來</button>
+</div>
+<svg id="stage" role="img" aria-label="公車與小球動畫"></svg>
+<div class="read" id="read"></div>
+<figcaption id="cap"></figcaption>
+</figure>
+<p class="foot">數字照課本圖 3-13 的設定（加速度 4 m/s²；減速時初速 20 m/s）；轉彎半徑 30 m、速率 10 m/s 為本頁設定。小球畫大了，動畫放慢為一半速度。</p>
+
+<section><h2>先在車上看</h2>
+<p>選「加速」「車上看」，按播放。畫面跟著公車走，所以公車不動，路面的刻度往後退。球從前段一路往後滾，1 s 滾了 2 m，2 s 滾了 8 m，愈滾愈快。</p>
+<p>如果只站在車上用牛頓第一定律想：球原本靜止、沒有受到水平的力，就應該一直靜止。可是它動了，而且還在加速。要嘛有一個力在推它，要嘛定律在這裡不管用。那個力找得到施力者嗎？地板沒摩擦，車壁沒碰到，空氣也沒推它。<b>找不到誰在推。</b></p>
+</section>
+
+<section><h2>換到地面看：球根本沒動</h2>
+<p>按「地面看」，再播一次。這次畫面固定在路上，刻度不動。球停在路面同一個刻度上，一直沒有離開。在動的是公車：它從靜止開始加速，往前開，地板從球底下滑過去。</p>
+<p>所以車上看到的「往後滾」，其實是公車往前走掉了。球對車往後的距離，就是公車往前走的距離：</p>
+<p class="eq"><i>x</i> = ½ <i>a t</i>² = ½ × 4 × 1² = 2 m　　½ × 4 × 2² = 8 m</p>
+<p>和車上看到的數字一模一樣。從地面看，沒有力、球就保持靜止，牛頓第一定律一點問題也沒有。</p>
+</section>
+
+<section><h2>減速：球往前衝</h2>
+<p>選「減速」。公車和球一開始都以 20 m/s 前進，接著公車煞車。地面看：球沒受力，繼續 20 m/s 等速前進；公車每秒少 4 m/s，1 s 時剩 16 m/s、2 s 時剩 12 m/s。球比車多走：</p>
+<p class="eq">1 s：20 − 18 = 2 m　　2 s：40 − 32 = 8 m</p>
+<p>車上的人就看見球往前滾。急煞時人往前倒，也是同一件事：身體想保持原來的速度，是車子先慢下來。</p>
+</section>
+
+<section><h2>轉彎：球沿直線走，車轉進去</h2>
+<p>選「轉彎」，這次是從上往下看。公車速率不變，只改方向。地面看：球沒受水平力，沿原來的方向直直走；公車沿彎道轉向內側，兩者分開，球就靠到<b>外側</b>車壁上。</p>
+<p>球碰到車壁後，車壁推它往彎道內側，球才開始跟著車轉。這時候才真的有力，而且方向朝內，不是朝外。</p>
+<p>切到「車上看」：車頭一直朝右，球卻自己往外側滑過去，好像被「甩出去」。從地面看，沒有東西甩它，它只是沒有跟著轉彎。</p>
+</section>
+
+<section><h2>哪一個說法能用牛頓第一定律？</h2>
+<p>同一顆球，兩個人的描述不同：</p>
+<p>地面上的人：<b>不受力，就靜止或等速直線</b>。三種情況都對得上。<br>
+車上的人：等速直線行駛時沒問題；但車一加速、減速或轉彎，不受力的球就會自己動起來，牛頓第一定律不成立。</p>
+<p>牛頓第一定律成立的參考坐標系叫<b>慣性坐標系</b>，地面可以當成慣性坐標系；正在加速、減速或轉彎的公車不是，它是<b>非慣性坐標系</b>（課本 p.117）。所以分析一個物體受什麼力時，要站在地面上看：每一個力都得說得出是誰施的，找不到施力者的「推力」，就是你站在加速的車上看出來的。</p>
+
+<div class="key"><b>想一想：</b>公車往前加速時，車頂的吊環往前偏還是往後偏？用地面看的方式說明。
+<details><summary>看想法</summary>往後偏。地面看，吊環也要跟著公車往前加速，它只受重力和繩子拉力，所以繩子必須斜斜地往前上方拉它，吊環就落在掛點的後方。等速時不用加速，繩子直直垂下。</details></div>
+</section>
+</main>
+<script>
+const S=document.getElementById('stage'),R=document.getElementById('read'),C=document.getElementById('cap');
+let mode='acc',view='bus',t=0,playing=false,last=0;
+const TMAX={acc:2,dec:2,turn:2.4},SLOW=0.5;
+const NS='http://www.w3.org/2000/svg';
+// 轉彎：公車中心沿半徑 RT 的圓右轉，球從車中心沿切線直走；碰到外側車壁（局部 y=-1.0）後跟車一起走
+const RT=30,VT=10,WALL=1.0;
+function busPose(tt){const th=VT*tt/RT;return {x:RT*Math.sin(th),y:RT-RT*Math.cos(th),th};}
+function toLocal(px,py,b){const dx=px-b.x,dy=py-b.y;return {lx:dx*Math.cos(b.th)+dy*Math.sin(b.th),ly:-dx*Math.sin(b.th)+dy*Math.cos(b.th)};}
+let tHit=null,hitLocal=null;
+(function(){for(let tt=0;tt<=3;tt+=0.001){const l=toLocal(VT*tt,0,busPose(tt));if(l.ly<=-WALL){tHit=tt;hitLocal=l;break;}}})();
+function ballTurn(tt){
+  if(tHit===null||tt<tHit)return {x:VT*tt,y:0,hit:false};
+  const b=busPose(tt);return {x:b.x+hitLocal.lx*Math.cos(b.th)-hitLocal.ly*Math.sin(b.th),y:b.y+hitLocal.lx*Math.sin(b.th)+hitLocal.ly*Math.cos(b.th),hit:true};
+}
+// 直線：公車車尾位置與球位置（對地，m）。車長 12 m
+const L=12;
+function lin(tt){
+  if(mode==='acc')return {bus:2*tt*tt,vb:4*tt,ball:9,vball:0};
+  return {bus:20*tt-2*tt*tt,vb:20-4*tt,ball:3+20*tt,vball:20};
+}
+function busSide(x,op){
+  return `<g opacity="${op}"><rect x="${x}" y="-3.4" width="${L}" height="2.9" rx="0.5" fill="#f2c14e" stroke="#9b7a22" stroke-width="0.06"/>
+  ${[1,3.4,5.8,8.2].map(w=>`<rect x="${x+w}" y="-3.05" width="1.8" height="1.1" rx="0.15" fill="#8fd0ea"/>`).join('')}
+  <rect x="${x+10.4}" y="-3.05" width="1.3" height="1.6" rx="0.15" fill="#8fd0ea"/>
+  <circle cx="${x+2.5}" cy="-0.5" r="0.55" fill="#444"/><circle cx="${x+9.5}" cy="-0.5" r="0.55" fill="#444"/>
+  <line x1="${x+0.2}" y1="-1.05" x2="${x+L-0.2}" y2="-1.05" stroke="#9b7a22" stroke-width="0.06"/></g>`;
+}
+function drawLinear(){
+  const p=lin(t);
+  const cam=view==='bus'?p.bus-4:-2, W=view==='bus'?26:(mode==='acc'?26:56);
+  S.setAttribute('viewBox',`${cam} -5.2 ${W} 7.4`);
+  let s='';
+  const x0=Math.floor(cam/2)*2-2;
+  s+=`<rect x="${cam-1}" y="0.05" width="${W+2}" height="0.6" fill="#c9ced6"/>`;
+  for(let x=x0;x<cam+W+2;x+=2){s+=`<line x1="${x}" y1="0.05" x2="${x}" y2="${x%10===0?0.65:0.4}" stroke="#56646d" stroke-width="0.06"/>`;if(x%10===0)s+=`<text x="${x}" y="${0.8+W/37}" font-size="${W/37}" text-anchor="middle" fill="#56646d">${x} m</text>`;}
+  if(view==='ground'){[0,1,2].filter(k=>k<t-0.01).forEach(k=>{const q=lin(k);s+=busSide(q.bus,0.18);});
+    s+=`<line x1="${p.ball}" y1="-4.6" x2="${p.ball}" y2="0.7" stroke="#d1373b" stroke-width="0.05" stroke-dasharray="0.2 0.2" opacity="${mode==='acc'?1:0}"/>`;}
+  s+=busSide(p.bus,1);
+  s+=`<circle cx="${p.ball}" cy="-1.35" r="0.3" fill="#d1373b"/>`;
+  if(view==='bus'){const rel=p.ball-p.bus,d=rel-(mode==='acc'?9:3);
+    s+=`<line x1="${p.bus+(mode==='acc'?9:3)}" y1="-4" x2="${p.bus+(mode==='acc'?9:3)}" y2="-1" stroke="#286d8c" stroke-width="0.05" stroke-dasharray="0.2 0.2"/>`;
+    s+=`<text x="${p.bus+(mode==='acc'?9:3)}" y="-4.3" font-size="0.65" text-anchor="middle" fill="#286d8c">球的起點</text>`;}
+  S.innerHTML=s;
+  R.innerHTML=`<i>t</i> = ${t.toFixed(1)} s　公車速度 ${p.vb.toFixed(0)} m/s　小球速度 ${p.vball} m/s（對地）　球相對公車 ${(Math.abs(p.ball-p.bus-(mode==='acc'?9:3))).toFixed(1)} m ${mode==='acc'?'往後':'往前'}`;
+  C.textContent=view==='bus'?'車上看：畫面跟著公車，路面刻度往後退。':'地面看：畫面固定在路上，淡色是 0 s、1 s 的公車位置。';
+}
+function busTop(){return `<rect x="-6" y="-1.25" width="12" height="2.5" rx="0.4" fill="#f2c14e" stroke="#9b7a22" stroke-width="0.08"/><rect x="4.4" y="-1.05" width="1.2" height="2.1" rx="0.2" fill="#8fd0ea"/><path d="M6.6 0 l-0.8 -0.5 v1z" fill="#9b7a22"/>`;}
+function drawTurn(){
+  const b=busPose(t),ball=ballTurn(t);
+  let road='';
+  // 彎道：先一段直路（x<0），再沿圓弧
+  road+=`<path d="M -20 0 L 0 0 A ${RT} ${RT} 0 0 1 ${RT*Math.sin(1.2)} ${RT-RT*Math.cos(1.2)}" fill="none" stroke="#c9ced6" stroke-width="7"/>`;
+  road+=`<path d="M -20 0 L 0 0 A ${RT} ${RT} 0 0 1 ${RT*Math.sin(1.2)} ${RT-RT*Math.cos(1.2)}" fill="none" stroke="white" stroke-width="0.15" stroke-dasharray="1.2 1"/>`;
+  road+=`<line x1="0" y1="0" x2="34" y2="0" stroke="#286d8c" stroke-width="0.08" stroke-dasharray="0.4 0.4"/>`;
+  if(view==='ground')road+=`<text x="27" y="-0.7" font-size="0.9" fill="#286d8c">原來的方向</text>`;
+  let world=road;
+  if(view==='ground'){[0,0.8,1.6].filter(k=>k<t-0.01).forEach(k=>{const q=busPose(k);world+=`<g opacity="0.18" transform="translate(${q.x} ${q.y}) rotate(${q.th*180/Math.PI})">${busTop()}</g>`;});}
+  world+=`<g transform="translate(${b.x} ${b.y}) rotate(${b.th*180/Math.PI})">${busTop()}</g>`;
+  world+=`<circle cx="${ball.x}" cy="${ball.y}" r="0.3" fill="#d1373b"/>`;
+  if(view==='ground'){S.setAttribute('viewBox','-8 -9 46 26');S.innerHTML=world;}
+  else{S.setAttribute('viewBox','-23 -9 46 26');S.innerHTML=`<g transform="rotate(${-b.th*180/Math.PI}) translate(${-b.x} ${-b.y})">${world}</g>`;}
+  const l=toLocal(ball.x,ball.y,b);
+  R.innerHTML=`<i>t</i> = ${t.toFixed(1)} s　公車速率 10 m/s（方向在變）　小球${ball.hit?'已碰到外側車壁，被車壁推著轉':'沿原方向直走'}　偏向外側 ${Math.min(-l.ly,WALL).toFixed(2)} m`;
+  C.textContent=view==='bus'?'車上看（俯視）：畫面跟著公車轉，車頭固定朝右，路面在轉。':'地面看（俯視）：藍色虛線是轉彎前的方向；淡色是較早的公車位置。';
+}
+function draw(){mode==='turn'?drawTurn():drawLinear();}
+function loop(ts){if(!playing)return;const dt=(ts-last)/1000;last=ts;t=Math.min(TMAX[mode],t+dt*SLOW);draw();if(t>=TMAX[mode]){playing=false;document.getElementById('play').textContent='▶ 播放';return;}requestAnimationFrame(loop);}
+document.getElementById('play').onclick=e=>{if(playing){playing=false;e.target.textContent='▶ 播放';return;}if(t>=TMAX[mode])t=0;playing=true;e.target.textContent='❚❚ 暫停';last=performance.now();requestAnimationFrame(loop);};
+document.getElementById('reset').onclick=()=>{playing=false;document.getElementById('play').textContent='▶ 播放';t=0;draw();};
+document.querySelectorAll('[data-case]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-case]').forEach(x=>x.classList.toggle('on',x===b));mode=b.dataset.case;playing=false;document.getElementById('play').textContent='▶ 播放';t=0;draw();});
+document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-view]').forEach(x=>x.classList.toggle('on',x===b));view=b.dataset.view;draw();});
+document.addEventListener('keydown',e=>{if(e.key===' '&&e.target===document.body){e.preventDefault();document.getElementById('play').click();}});
+draw();
+</script>
+</body>
+</html>

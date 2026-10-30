@@ -1,0 +1,323 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>腳踏車摩擦力</title>
+<style>html{color-scheme:light}*{box-sizing:border-box}body{margin:0;background:#f7f5f0;color:#202a32;font:22px/1.8 "PingFang TC","Microsoft JhengHei",sans-serif}
+header.top,main{max-width:1040px;margin:auto;padding:30px 28px}header.top{padding-bottom:0}header.top small{color:#9b521e;font-size:16px}
+h1{font-size:clamp(32px,5vw,52px);line-height:1.4;margin:14px 0}h2{font-size:30px;line-height:1.5;margin:0 0 20px}p{margin:16px 0}
+section{margin:28px 0 64px}figure{margin:24px 0;background:white;border:1px solid #d5d9da;border-radius:12px;padding:18px}
+figcaption{font-size:17px;color:#56646d;line-height:1.6;margin-top:12px}.key{border-left:5px solid #b66a30;padding:12px 20px;background:#eeeae0}
+.eq{text-align:center;font-size:24px;margin:14px 0}
+details.q{margin:14px 0;background:white;border:1px dashed #b9c4c6;border-radius:10px;padding:8px 18px}details.q summary{cursor:pointer;color:#286d8c;font-weight:700}
+.foot{font-size:16px;color:#647079}
+@media(max-width:650px){body{font-size:19px}header.top,main{padding:20px 16px}h2{font-size:25px}figure{padding:10px}section{margin-bottom:45px}}
+
+/* 互動圖（沿用原圖像，白底） */
+
+:root{
+  
+  --bg:#ffffff;--panel:#f1efe9;--line:#c9cfd1;--fg:#202a32;--muted:#5d6a72;
+  --force:#c96a00;   /* 摩擦力 */
+  --drive:#1f6fb4;   /* 鏈條、後輪 */
+  --front:#2b7a3d;   /* 前輪 */
+  --slip:#c0392b;    /* 打滑 */
+  --ice:#2f86b8;
+  --rubber:#6b7880;
+  --font:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+}
+.stage{position:relative;width:100%;aspect-ratio:16/9;max-height:76vh;margin:0 auto;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--bg)}
+.sim:fullscreen{margin:0;padding:12px;background:var(--bg);overflow:auto}.sim:fullscreen .stage{height:calc(100vh - 215px);max-height:none;aspect-ratio:auto}.sim:fullscreen figcaption{display:none}
+.sim-scroll{overflow-x:auto}
+@media(max-width:650px){.stage{min-width:900px;max-height:none}.sim:fullscreen .stage{min-width:900px}.sim-scroll::before{content:"圖可左右滑動；橫放手機可看得更清楚";display:block;font-size:15px;color:var(--muted)}}
+canvas{display:block;width:100%;height:100%}
+.result{padding:12px 18px;background:var(--panel);border-left:4px solid var(--force);font-size:clamp(1rem,2vw,1.35rem);line-height:1.7;min-height:3.6em}
+.result .f{color:var(--force);font-weight:700}.result .s{color:var(--slip);font-weight:700}.result .g{color:var(--front);font-weight:700}.result .b{color:var(--drive);font-weight:700}
+.ctl{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;font-size:clamp(.88rem,1.3vw,1rem)}
+button{font:inherit;min-height:44px;padding:8px 16px;border:1px solid var(--line);border-radius:999px;color:var(--fg);background:var(--panel);cursor:pointer}
+button:hover{border-color:var(--muted)}
+button[aria-pressed="true"]{background:var(--force);color:#fff;border-color:var(--force);font-weight:700}
+#pedal{font-weight:700;min-width:9em}
+button:focus-visible,input:focus-visible{outline:3px solid var(--drive);outline-offset:3px}
+.ctl label{display:flex;align-items:center;gap:8px;min-height:44px;cursor:pointer;white-space:nowrap}
+input[type=checkbox]{width:19px;height:19px;accent-color:var(--force)}
+.sim .cap,.sim .result{margin-top:12px;font-size:19px}.sim .ctl{margin-top:12px}
+</style></head><body>
+<header class="top"><small>延伸｜2-3 生活中常見的力｜摩擦力</small><h1>腳踏車向前加速，<br>前輪的摩擦力為什麼向後？</h1><p>騎腳踏車往前加速。後輪和前輪底下，地面給的摩擦力各向哪邊？很多人說「摩擦力和運動方向相反，兩個都向後」，也有人說「兩個都向前，車才會前進」。先猜，再往下讀。</p></header>
+<main>
+<section><h2>摩擦力反抗的是什麼？</h2>
+<p>摩擦力反抗的不是「車往哪裡走」，而是<b>接觸的兩個面之間的滑動</b>。輪子沒有打滑時，輪底貼著地面的那一點，對地面是瞬間靜止的；這時的摩擦力是靜摩擦力，方向要問：<b>假如地面完全沒有摩擦（像冰），輪底會往哪邊滑？</b>摩擦力就和那個方向相反。</p></section>
+<section><h2>後輪：被鏈條轉起來</h2>
+<p>踩踏板，鏈條把後輪轉起來。在冰上，後輪會原地空轉，輪底往<b>後</b>刮。地面不讓它刮，就給輪底一個<b>向前</b>的摩擦力。這個力作用在車上，是推整台車往前加速的力；沒有它，鏈條再怎麼轉，就不能靠踩踏使整車向前加速；已經在前進的車仍會滑行。</p></section>
+<section><h2>前輪：沒有鏈條，被車架推著走</h2>
+<p>前輪沒有接鏈條，車架沒有像鏈條那樣直接驅動它旋轉，只推它的<b>輪軸</b>往前。車越來越快，前輪就得越轉越快，輪底才不會打滑。可是誰讓它越轉越快？</p>
+<p>假如地面沒有摩擦，前輪的轉速就停在原來那樣，輪軸卻被車架帶著越跑越快，輪底就會<b>往前</b>滑出去。地面不讓它滑，給輪底一個<b>向後</b>的摩擦力。這個力作用在輪子最下面，往後一扯，就讓前輪越轉越快，剛好跟上車速。</p>
+<p>先看下圖上方兩條路徑：<b>後輪是主動輪，鏈條施力讓它轉快；前輪是被動輪，車架只推它的輪軸往前。</b>藍色轉動箭頭與綠色輪軸箭頭表示不同的驅動方式，橙色才是地面的摩擦力。按「踩踏」，車向右加速；下方的速率–時間圖裡，車速和兩個輪子的轉速（輪緣速率）三條線疊在一起，代表兩輪都沒打滑。再按「路上放一塊冰」：前輪壓上冰時，綠線停住不再上升，車速卻繼續往上，依本模型，前輪會向前打滑；接著後輪上冰，後輪空轉，車就不再加速。</p></section>
+<figure class="sim" id="simulation">
+<div class="sim-scroll"><section class="stage" id="stage"><canvas id="cv" role="img" aria-label="向右前進的腳踏車。踩踏加速時後輪摩擦力向前、前輪摩擦力向後；下方為速率對時間的圖。"></canvas></section></div>
+<div class="result" id="result" aria-live="polite"></div>
+<div class="ctl">
+    <button id="pedal" aria-pressed="false">踩踏（加速）</button>
+    <button id="ice">路上放一塊冰</button>
+    <button id="pause" aria-pressed="false">暫停</button>
+    <button id="slow" aria-pressed="false">慢動作</button>
+    <button id="reset">從靜止重播</button>
+    <button id="theme">圖表深底</button>
+    <label><input type="checkbox" id="forces" checked>顯示摩擦力</label>
+    <label><input type="checkbox" id="tend" checked>顯示「沒有摩擦會怎麼滑」</label>
+    <button id="fs">全螢幕</button>
+  </div>
+<figcaption>藍色＝鏈條驅動後輪；綠色＝車架推前輪輪軸；橙色＝地面摩擦力；灰色虛線＝假如沒有摩擦的滑動趨勢。可隨時停止、再踩踏；速率圖自動調整刻度。「從靜止重播」會重新開始加速。平地、後輪驅動，忽略空氣與滾動阻力。為了讓前輪的摩擦力看得到，畫面把輪子的轉動慣性刻意放大；真實腳踏車前輪的摩擦力比後輪小很多。速度、時間為示意單位，箭頭只示意方向與大小順序。冰面上假設完全沒有摩擦。</figcaption></figure>
+<section><h2>不踩了呢？</h2>
+<p>停止踩踏，車等速滑行。兩個輪子的轉速都不必再改變，輪底沒有想往哪邊滑，兩輪的摩擦力都是 0（忽略阻力）。摩擦力不是「因為在動」才有，是「因為接觸面想滑」才有。</p>
+<p class="key">判斷摩擦力的方向，看接觸處假如沒有摩擦會往哪邊滑。後輪被鏈條轉，輪底想向後刮，摩擦力向前，推車加速；前輪被車架推著輪軸走，輪底想向前滑，摩擦力向後，帶它越轉越快。</p></section>
+<section><h2>想一想</h2><p>不騎，用手推著腳踏車向前加速。這時後輪的摩擦力向哪邊？</p>
+<details class="q"><summary>想好了再打開</summary><p><b>向後。</b>沒人踩，鏈條不轉後輪，兩個輪子都只是被車架推著輪軸走，都和上面的前輪一樣：假如沒有摩擦，輪底會向前滑，所以兩輪的摩擦力都向後。推車向前的是你的手，不是地面。</p></details></section>
+<p class="foot">示意模擬，數字為示意單位。不打滑時是靜摩擦力；離開冰面還在打滑的那一小段是動摩擦力。</p></main>
+<script>
+(() => {
+'use strict';
+const $=id=>document.getElementById(id);
+const cv=$('cv'),ctx=cv.getContext('2d'),stage=$('stage');
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const C={bg:css('--bg'),panel:css('--panel'),line:css('--line'),fg:css('--fg'),muted:css('--muted'),F:css('--force'),D:css('--drive'),G:css('--front'),X:css('--slip'),ice:css('--ice'),rub:css('--rubber')};
+const FONT=css('--font');
+const TAU=Math.PI*2;
+
+// ── 物理（示意單位）──
+const K=0.15, F0=1, FK=1.4, L=4; // 示意：轉動慣性、踩踏轉矩/R、動摩擦、軸距；不設人為速度上限
+const ICE_LEN=2.6;
+function freshState(){return{t:0,X:0,v:0,a:0,
+  w:{r:{u:0,roll:true,f:0,th:0,ice:false},f:{u:0,roll:true,f:0,th:0,ice:false}},
+  crank:0,pedal:false,ice:null,hist:[],lastSample:-1,flash:''};}
+let S=freshState();
+let paused=false, slow=false, showF=true, showT=true;
+
+function onIce(xc){return S.ice&&xc>=S.ice.s&&xc<=S.ice.s+ICE_LEN;}
+function physStep(dt){
+  const W=S.w, wr=W.r, wf=W.f;
+  wr.ice=onIce(S.X); wf.ice=onIce(S.X+L);
+  const drive={r:S.pedal?F0:0,f:0};
+  // 決定每個輪子：不打滑（約束）或打滑（摩擦力已知）
+  let num=0,nroll=0;
+  for(const key of ['r','f']){const w=W[key];
+    if(w.ice){w.roll=false;w.f=0;}
+    else if(!w.roll){const s=S.v-w.u; if(Math.abs(s)<1e-4){w.roll=true;w.u=S.v;} else w.f=-FK*Math.sign(s);}
+    if(w.roll){num+=drive[key];nroll++;} else num+=w.f;
+  }
+  const a=num/(1+K*nroll); S.a=a;
+  for(const key of ['r','f']){const w=W[key];
+    if(w.roll){w.f=drive[key]-K*a;}
+  }
+  // 積分
+  S.v+=a*dt; if(S.v<0)S.v=0;
+  S.X+=S.v*dt;
+  for(const key of ['r','f']){const w=W[key];
+    if(w.roll){w.u=S.v;}
+    else{
+      const s0=S.v-a*dt-w.u;            // 本步開始時的滑動
+      w.u+=(drive[key]-w.f)/K*dt;
+
+      const s1=S.v-w.u;
+      if(!w.ice&&(Math.sign(s1)!==Math.sign(s0)||Math.abs(s1)<1e-3)){w.roll=true;w.u=S.v;}
+    }
+    w.th+=w.u*dt;                        // R＝1：轉角＝輪緣走過的弧長
+  }
+  if(S.pedal)S.crank+=wr.u*dt*0.45;      // 不踩時踏板不轉（飛輪）
+
+  if(S.ice&&S.ice.s+ICE_LEN<S.X-6)S.ice=null;
+  S.t+=dt;
+  if(S.t-S.lastSample>=1/30){S.lastSample=S.t;
+    S.hist.push({t:S.t,v:S.v,ur:wr.u,uf:wf.u,p:S.pedal});
+    while(S.hist.length&&S.hist[0].t<S.t-16)S.hist.shift();}
+}
+
+// ── 畫面（邏輯 1600×900）──
+const LW=1600,LH=900;
+let dpr=1,scale=1,ox=0,oy=0;
+function resize(){const r=stage.getBoundingClientRect();dpr=Math.min(window.devicePixelRatio||1,2);
+  cv.width=Math.max(1,r.width*dpr);cv.height=Math.max(1,r.height*dpr);
+  scale=Math.min(r.width/LW,r.height/LH);ox=(r.width-LW*scale)/2;oy=(r.height-LH*scale)/2;draw();}
+new ResizeObserver(resize).observe(stage);
+
+const R=118, GY=488, RX=560, FX=RX+L*R, AY=GY-R; // 輪半徑（像素）、地面、後輪與前輪的畫面位置、輪軸高度
+function line(x1,y1,x2,y2,c,w=2,dash){ctx.beginPath();ctx.setLineDash(dash||[]);ctx.strokeStyle=c;ctx.lineWidth=w;ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();ctx.setLineDash([]);}
+function circle(x,y,r,c,w=2,fill){ctx.beginPath();ctx.arc(x,y,r,0,TAU);if(fill){ctx.fillStyle=fill;ctx.fill();}if(c){ctx.lineWidth=w;ctx.strokeStyle=c;ctx.stroke();}}
+function text(s,x,y,c=C.fg,size=24,align='center',weight=700){ctx.fillStyle=c;ctx.font=`${weight} ${size}px ${FONT}`;ctx.textAlign=align;ctx.textBaseline='middle';ctx.fillText(s,x,y);}
+function arrow(x,y,dx,c,w=6,dash){
+  if(Math.abs(dx)<2)return;const d=Math.sign(dx),head=Math.min(22,Math.abs(dx)*.5);
+  line(x,y,x+dx-d*head*.8,y,c,w,dash);
+  ctx.fillStyle=c;ctx.beginPath();ctx.moveTo(x+dx,y);ctx.lineTo(x+dx-d*head,y-head*.6);ctx.lineTo(x+dx-d*head,y+head*.6);ctx.closePath();ctx.fill();
+}
+function wheel(x,th,col,label){
+  circle(x,AY,R,C.rub,9);circle(x,AY,R-11,C.line,1.5);
+  for(let i=0;i<12;i++){const a=th+i*TAU/12;line(x,AY,x+Math.cos(a)*(R-12),AY+Math.sin(a)*(R-12),C.line,1.4);}
+  const a=th-Math.PI/2;                                  // 一根亮色輻條，看得出轉多快
+  line(x,AY,x+Math.cos(a)*(R-12),AY+Math.sin(a)*(R-12),col,4);
+  circle(x+Math.cos(a)*(R-6),AY+Math.sin(a)*(R-6),8,null,0,col);
+  circle(x,AY,8,C.fg,2,C.bg);
+}
+function frame(){
+  const mid=RX+(FX-RX)*.43,seat=RX+(FX-RX)*.35,sy=AY-R*1.27,head=FX-R*.38;
+  [[RX,AY,seat,sy],[seat,sy,mid,AY],[mid,AY,RX,AY],[seat,sy,head,sy],[head,sy,mid,AY],[head,sy,FX,AY]].forEach(p=>line(...p,C.fg,4));
+  line(seat-16,sy-8,seat+16,sy-8,C.fg,7);
+  line(head,sy,head+10,sy-28,C.fg,4);line(head+10,sy-28,head-8,sy-36,C.fg,4);
+  // 鏈條：大齒盤（踏板）→ 後輪小齒輪
+  const cr=24,sr=13;
+  circle(mid,AY,cr,S.pedal?C.D:C.muted,3);circle(RX,AY,sr,S.pedal?C.D:C.muted,3);
+  line(RX,AY-sr,mid,AY-cr,S.pedal?C.D:C.muted,2.5);line(RX,AY+sr,mid,AY+cr,S.pedal?C.D:C.muted,2.5);
+  if(S.pedal){
+    const offset=((S.crank*28)%24+24)%24;
+    for(let q=offset;q<mid-RX;q+=24){
+      const u=q/(mid-RX);circle(RX+q,AY-sr-u*(cr-sr),4,null,0,C.D);
+      circle(mid-q,AY+cr-u*(cr-sr),4,null,0,C.D);
+    }
+    text('鏈條只接後輪',mid-42,AY+72,C.D,21);
+  }
+  for(const s of [0,Math.PI]){const a=S.crank+s,px=mid+Math.cos(a)*44,py=AY+Math.sin(a)*44;
+    line(mid,AY,px,py,C.fg,4);line(px-14,py,px+14,py,C.fg,6);}
+}
+function ground(){
+  line(40,GY,1560,GY,C.muted,2);
+  const ph=((S.X*R)%30+30)%30;
+  ctx.save();ctx.beginPath();ctx.rect(40,GY,1520,20);ctx.clip();
+  for(let x=40-ph;x<1590;x+=30)line(x+14,GY+2,x,GY+18,C.line,2);
+  ctx.restore();
+  if(S.ice){const x1=RX+(S.ice.s-S.X)*R,x2=x1+ICE_LEN*R;
+    ctx.save();ctx.beginPath();ctx.rect(40,0,1520,LH);ctx.clip();
+    ctx.fillStyle='rgba(47,134,184,.18)';ctx.fillRect(x1,GY-6,x2-x1,22);
+    line(x1,GY-6,x2,GY-6,C.ice,3);text('冰',x1+10,GY+6,C.ice,16,'left');
+    ctx.restore();}
+}
+const fmt1=n=>(Math.round(n*10)/10).toFixed(1);
+function contact(x,w,isRear){
+  const y=GY+40, s=S.v-w.u;
+  const slipping=!w.roll&&Math.abs(s)>0.02;
+  // 摩擦力
+  if(showF){
+    if(w.ice) text('冰面：沒有摩擦力',x,y,C.ice,22);
+    else if(Math.abs(w.f)<0.005) text('摩擦力 0',x,y,C.muted,22);
+    else{const len=Math.sign(w.f)*Math.min(150,40+110*Math.abs(w.f));
+      circle(x,GY,6,null,0,C.F);arrow(x,GY,len,C.F,7);
+      text(`${slipping?'動':'靜'}摩擦力向${w.f>0?'前 →':'後 ←'}`,x+len/2,y+6,C.F,24);}
+  }else text('摩擦力 ？',x,y,C.muted,24);
+  // 打滑（實際發生）或趨勢（假如沒有摩擦）
+  const y2=GY+92;
+  if(slipping){const d=Math.sign(s);arrow(x,y2,d*90,C.X,4);text(`打滑：輪底向${d>0?'前':'後'}滑`,x,y2+30,C.X,22);}
+  else if(showT&&!w.ice&&Math.abs(w.f)>0.005){const d=-Math.sign(w.f);
+    arrow(x,y2,d*80,C.muted,3,[8,7]);text(`沒有摩擦的話，輪底會向${d>0?'前':'後'}滑`,x,y2+30,C.muted,20,'center',500);}
+}
+function graph(){
+  const gx=150,gw=1300,gy=680,gh=180;
+  const VM=Math.max(4,Math.ceil(Math.max(S.v,S.w.r.u,S.w.f.u,...S.hist.map(h=>Math.max(h.v,h.ur,h.uf)))/2)*2+2);
+  ctx.fillStyle=C.panel;ctx.fillRect(gx-110,gy-50,gw+150,gh+76);
+  text('速率',gx-60,gy+10,C.muted,20,'center',500);
+  text(String(VM),gx-16,gy+28,C.muted,18,'right',500);
+  text('0',gx-16,gy+gh,C.muted,18,'right',500);
+  line(gx,gy+gh,gx+gw,gy+gh,C.muted,2);line(gx,gy,gx,gy+gh,C.muted,2);
+  text('時間 →',gx+gw-10,gy+gh+16,C.muted,18,'right',500);
+  const t1=Math.max(16,S.t),t0=t1-16;
+  const X=t=>gx+(t-t0)/16*gw, Y=v=>gy+gh-Math.min(v,VM)/VM*gh;
+  // 踩踏期間底色
+  ctx.fillStyle='rgba(120,200,255,.10)';
+  let st=null;S.hist.forEach((h,i)=>{if(h.p&&st===null)st=h.t;if((!h.p||i===S.hist.length-1)&&st!==null){ctx.fillRect(X(st),gy,X(h.t)-X(st),gh);st=null;}});
+  const plot=(key,c,w,dash)=>{ctx.beginPath();ctx.setLineDash(dash||[]);ctx.strokeStyle=c;ctx.lineWidth=w;
+    S.hist.forEach((h,i)=>{const x=X(h.t),y=Y(h[key]);i?ctx.lineTo(x,y):ctx.moveTo(x,y);});ctx.stroke();ctx.setLineDash([]);};
+  ctx.save();ctx.beginPath();ctx.rect(gx,gy-4,gw,gh+4);ctx.clip();
+  plot('v',C.fg,9);plot('ur',C.D,4);plot('uf',C.G,4,[12,8]);ctx.restore();
+  // 圖例
+  const lx=gx+20,ly=gy-28;
+  line(lx,ly,lx+36,ly,C.fg,7);text('車速',lx+46,ly,C.fg,18,'left',500);
+  line(lx+120,ly,lx+156,ly,C.D,4);text('後輪轉速（輪緣）',lx+166,ly,C.D,18,'left',500);
+  line(lx+330,ly,lx+366,ly,C.G,4,[12,8]);text('前輪轉速（輪緣）',lx+376,ly,C.G,18,'left',500);
+  text('三條線疊在一起＝沒有打滑；淡藍底＝踩踏中',gx+gw-10,ly,C.muted,18,'right',500);
+}
+function draw(){
+  ctx.setTransform(dpr,0,0,dpr,0,0);ctx.fillStyle=C.bg;ctx.fillRect(0,0,cv.width,cv.height);
+  ctx.setTransform(dpr*scale,0,0,dpr*scale,dpr*ox,dpr*oy);
+  // 前進方向（大、正上方）
+  arrow(560,52,420,C.fg,8);text('前進方向',520,52,C.fg,36,'right',900);
+  const state=S.v<0.005&&!S.pedal?'停著':S.pedal?(S.a>0.01?'踩踏中・加速':'踩踏中・沒有加速'):(Math.abs(S.a)>0.01?'不踩・速度在變':'不踩・等速滑行');
+  text(state,1010,52,S.pedal?C.D:C.muted,30,'left',700);
+  if(paused||slow)text(paused?'暫停中':'慢動作 ×¼',1010,96,paused?C.F:C.muted,22,'left',700);
+  text(`車速 ${fmt1(S.v)}`,1420,52,C.fg,26,'left',500);
+  function mechanism(x,color,title,detail){
+    ctx.fillStyle=C.panel;ctx.fillRect(x-238,108,476,70);
+    text(title,x,129,color,29);text(detail,x,162,color,23,'center',500);
+    line(x,178,x,AY-R-10,color,3,[6,5]);
+  }
+  mechanism(RX,C.D,'後輪｜主動輪',S.pedal?'踏板 → 鏈條 → 後輪轉得更快':'停止踩踏：鏈條不再驅動後輪');
+  mechanism(FX,C.G,'前輪｜被動輪',S.a>0.01?'車架推輪軸 → 輪心向前加速':'沒有鏈條接到前輪');
+  ground();frame();
+  wheel(RX,S.w.r.th,C.D);wheel(FX,S.w.f.th,C.G);
+  text(S.pedal?'鏈條施力':'沒有踩踏',RX-R-24,AY-14,C.D,27,'right');text(S.pedal?'讓後輪轉快 ↻':'飛輪空轉，不再驅動',RX-R-24,AY+22,C.D,23,'right',500);
+  text(S.a>0.01?'車架施力 →':'車架連著輪軸',FX+R+24,AY-14,C.G,27,'left');text(S.a>0.01?'推輪軸向前加速':'輪軸隨車移動',FX+R+24,AY+22,C.G,23,'left',500);text(S.a>0.01?'靠地面摩擦讓它轉快':'轉速是否改變，要看受力',FX+R+24,AY+55,C.G,21,'left',500);
+  // 驅動與車架推力
+  if(S.pedal){ctx.beginPath();ctx.strokeStyle=C.D;ctx.lineWidth=4;ctx.arc(RX,AY,R*.62,-Math.PI*.9,-Math.PI*.15);ctx.stroke();
+    const e=-Math.PI*.15,px=RX+R*.62*Math.cos(e),py=AY+R*.62*Math.sin(e);
+    ctx.fillStyle=C.D;ctx.beginPath();ctx.moveTo(px+10,py+14);ctx.lineTo(px-12,py+4);ctx.lineTo(px+6,py-10);ctx.closePath();ctx.fill();}
+  if(S.a>0.01){arrow(FX,AY,100,C.G,7);circle(FX,AY,10,C.G,3,C.bg);}
+  contact(RX,S.w.r,true);contact(FX,S.w.f,false);
+  graph();
+}
+
+// ── 說明文字 ──
+function caption(){
+  const wr=S.w.r,wf=S.w.f,sr=S.v-wr.u,sf=S.v-wf.u;
+  const slipF=!wf.roll&&Math.abs(sf)>0.02, slipR=!wr.roll&&Math.abs(sr)>0.02;
+  let h;
+  if(S.flash){h=S.flash+'。';}
+  else if(S.v<0.005&&!S.pedal&&!slipR) h='車停著。按「踩踏」開始加速，看兩個輪子底下的摩擦力。';
+  else if(wr.ice&&S.pedal) h='<span class="s">後輪在冰上</span>：鏈條把後輪越轉越快，輪底<span class="s">向後空轉</span>；沒有向前的摩擦力，<b>車不再加速</b>（看圖上車速變平）。';
+  else if(slipR) h='後輪剛離開冰面還在空轉：<span class="f">動摩擦力向前</span>，把後輪轉速拉下來、同時推車加速，直到不再打滑。';
+  else if(wf.ice&&S.a>0.01) h='<span class="s">前輪在冰上</span>：沒有摩擦力，前輪的轉速就停在原處（看綠線變平），車卻越來越快 → 輪底<span class="s">向前打滑</span>。平常就是地面向後的摩擦力，在帶前輪越轉越快。';
+  else if(slipF) h='前輪離開冰面：<span class="f">動摩擦力向後</span>，把前輪轉速拉上來，直到跟上車速、不再打滑。';
+  else if(S.pedal&&S.a>0.01) h=showF?'踩踏、向前加速：<span class="b">後輪</span>被鏈條帶著轉，<span class="f">摩擦力向前</span>，推整台車前進。<span class="g">前輪</span>沒有鏈條，車越來越快，它得越轉越快才跟得上；帶它轉快的是<span class="f">向後的摩擦力</span>。'
+    :'踩踏、向前加速。先想：後輪、前輪底下的摩擦力各向哪邊？';
+  else if(!S.pedal&&S.v>0.005) h='不踩了，車<b>等速滑行</b>。兩輪轉速不必再變，<span class="f">摩擦力都是 0</span>（忽略空氣與滾動阻力）。'+(wf.ice||wr.ice?'在冰上也照樣滑過去。':'');
+  else h='';
+  if($('result').innerHTML!==h)$('result').innerHTML=h;
+}
+function sync(){
+  $('pedal').setAttribute('aria-pressed',String(S.pedal));$('pedal').textContent=S.pedal?'停止踩踏':'踩踏（加速）';
+  $('pause').setAttribute('aria-pressed',String(paused));$('pause').textContent=paused?'繼續':'暫停';
+  $('slow').setAttribute('aria-pressed',String(slow));
+  $('forces').checked=showF;$('tend').checked=showT;
+  caption();draw();
+}
+
+// ── 迴圈 ──
+let prev=0;
+function loop(t){
+  const dt=prev?Math.min((t-prev)/1000,.05):0;prev=t;
+  if(!paused&&dt>0){const sim=dt*(slow?.25:1),n=Math.ceil(sim/(1/240));for(let i=0;i<n;i++)physStep(sim/n);sync();}
+  requestAnimationFrame(loop);
+}
+
+// ── 控制 ──
+function togglePedal(){S.flash='';S.pedal=!S.pedal;sync();}
+function placeIce(){S.flash='';S.ice={s:S.X+L+4.2};sync();}
+$('pedal').onclick=togglePedal;$('ice').onclick=placeIce;
+$('pause').onclick=()=>{paused=!paused;sync();};
+$('slow').onclick=()=>{slow=!slow;sync();};
+function restart(){S=freshState();S.pedal=true;paused=false;sync();}
+$('reset').onclick=restart;
+let dark=false;
+$('theme').onclick=()=>{dark=!dark;Object.assign(C,dark?{bg:'#15202b',panel:'#22313e',line:'#647584',fg:'#f0f4f8',muted:'#c0ccd5',D:'#79c5ff',G:'#87d99a',F:'#ffb35c',rub:'#aebbc5'}:{bg:css('--bg'),panel:css('--panel'),line:css('--line'),fg:css('--fg'),muted:css('--muted'),D:css('--drive'),G:css('--front'),F:css('--force'),rub:css('--rubber')});$('theme').textContent=dark?'圖表淺底':'圖表深底';draw();};
+$('forces').onchange=e=>{showF=e.target.checked;sync();};
+$('tend').onchange=e=>{showT=e.target.checked;sync();};
+$('fs').onclick=fullscreen;
+function fullscreen(){try{if(document.fullscreenElement)document.exitFullscreen();else if($('simulation').requestFullscreen)$('simulation').requestFullscreen().catch(()=>{});}catch(e){}}
+document.addEventListener('keydown',e=>{
+  if(e.altKey||e.ctrlKey||e.metaKey)return;
+  if(e.target.tagName==='BUTTON'&&(e.key===' '||e.key==='Enter'))return;
+  const k=e.key.toLowerCase();
+  if(e.key==='ArrowRight'){togglePedal();e.preventDefault();}
+  else if(k==='i')placeIce();
+  else if(e.key===' '){paused=!paused;sync();e.preventDefault();}
+  else if(k==='s'){slow=!slow;sync();}
+  else if(k==='h'){showF=!showF;sync();}
+  else if(k==='r')restart();
+  else if(e.key==='Enter')fullscreen();
+});
+document.addEventListener('fullscreenchange',resize);
+window.__bike={get S(){return S},physStep,freshState:()=>{S=freshState();}};
+resize();sync();requestAnimationFrame(loop);
+})();
+</script></body></html>

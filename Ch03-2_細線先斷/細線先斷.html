@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>細線先斷</title>
+<style>*{box-sizing:border-box}:root{color-scheme:light}body{margin:0;background:#f7f5f0;color:#202a32;font:22px/1.8 "PingFang TC","Microsoft JhengHei",sans-serif}header,main{max-width:1040px;margin:auto;padding:30px 28px}header{padding-bottom:0}small{color:#9b521e;font-size:16px}h1{font-size:clamp(32px,5vw,52px);line-height:1.4;margin:14px 0}h2{font-size:30px;line-height:1.5;margin:0 0 20px}p{margin:16px 0}section{margin:28px 0 64px}figure{margin:24px 0;background:white;border:1px solid #d5d9da;border-radius:12px;padding:18px;overflow:auto}svg{display:block;width:100%;max-width:760px;margin:auto}svg text{font-family:inherit;fill:#24333b}figcaption{font-size:17px;color:#56646d;line-height:1.6;margin-top:12px}.key{border-left:5px solid #b66a30;padding:12px 20px;background:#eeeae0}.eq{text-align:center;font-size:1.1em}details{margin:12px 0}summary{cursor:pointer;color:#286d8c;font-size:19px}.foot{font-size:16px;color:#647079}@media(max-width:650px){body{font-size:19px}header,main{padding:20px 16px}h2{font-size:25px}figure{padding:10px}section{margin-bottom:45px}}</style>
+</head>
+<body>
+<header><small>延伸</small><h1>同樣兩條線，<br>為什麼猛拉就換下面斷？</h1>
+<p>重物用細線 A 吊著，下面再綁一條同樣的細線 B。慢慢拉 B，斷的是上面的 A；猛力一拉，斷的卻是手上的 B。常聽到的解釋是「因為慣性」。可是重物只受三個力，沒有一個叫「慣性力」。猛拉的那一瞬間，到底是什麼讓 A 撐住了？</p></header>
+<main>
+
+<section><h2>慢拉：A 要多撐一個重量</h2>
+<p>慢慢拉時，重物幾乎不動，加速度約為 0，所以三個力平衡。取向上為正：</p>
+<figure><svg viewBox="0 0 520 330" role="img" aria-label="重物受力圖：A 拉力向上，重力與 B 拉力向下">
+<rect x="210" y="130" width="100" height="80" rx="6" fill="#e9dcb8" stroke="#8a7a52"/>
+<text x="260" y="177" text-anchor="middle" font-size="18">重物</text>
+<g stroke="#2a6f97" stroke-width="5" fill="#2a6f97"><line x1="260" y1="130" x2="260" y2="40"/><polygon points="260,22 249,46 271,46" stroke="none"/></g>
+<text x="276" y="62" font-size="18" fill="#2a6f97">A 的拉力 T<tspan font-size="13" dy="5">A</tspan></text>
+<g stroke="#555" stroke-width="5" fill="#555"><line x1="240" y1="210" x2="240" y2="270"/><polygon points="240,288 229,264 251,264" stroke="none"/></g>
+<text x="120" y="290" font-size="18" fill="#555">重力 mg</text>
+<g stroke="#b5482d" stroke-width="5" fill="#b5482d"><line x1="280" y1="210" x2="280" y2="290"/><polygon points="280,308 269,284 291,284" stroke="none"/></g>
+<text x="298" y="290" font-size="18" fill="#b5482d">B 的拉力 T<tspan font-size="13" dy="5">B</tspan></text>
+</svg><figcaption>重物只受這三個力。箭頭長度不按比例。</figcaption></figure>
+<p class="eq"><i>T</i><sub>A</sub> − <i>mg</i> − <i>T</i><sub>B</sub> = 0　⇒　<b><i>T</i><sub>A</sub> = <i>mg</i> + <i>T</i><sub>B</sub></b></p>
+<p>手把 B 拉得多緊，A 就得比 B 再多撐一個 <i>mg</i>。兩條線一樣，A 永遠比較緊，所以 A 先斷。</p>
+<p>問題來了：猛拉時，這個等式為什麼不成立？</p>
+</section>
+
+<section><h2>線要被拉長，拉力才會變大</h2>
+<p>細線其實像一條很硬的彈簧：它的拉力來自被拉長。要讓拉力變大，線就得<b>再被拉長一點</b>。棉線被拉長得很少，肉眼看不出來，但不拉長就沒有更大的拉力。</p>
+<p>看兩條線的兩端分別被誰拉住：</p>
+<figure><svg viewBox="0 0 640 400" role="img" aria-label="A 上端固定在天花板，下端接重物；B 上端接重物，下端被手往下拉">
+<rect x="150" y="18" width="200" height="16" fill="#9aa3a8"/><text x="370" y="32" font-size="17">天花板（固定不動）</text>
+<line x1="250" y1="34" x2="250" y2="140" stroke="#2a6f97" stroke-width="4"/><text x="265" y="92" font-size="20" fill="#2a6f97">A</text>
+<rect x="200" y="140" width="100" height="80" rx="6" fill="#e9dcb8" stroke="#8a7a52"/><text x="250" y="186" text-anchor="middle" font-size="18">重物</text>
+<line x1="250" y1="220" x2="250" y2="320" stroke="#b5482d" stroke-width="4"/><text x="265" y="275" font-size="20" fill="#b5482d">B</text>
+<rect x="215" y="320" width="70" height="22" rx="10" fill="#c99a6b"/><text x="300" y="338" font-size="17">手</text>
+<g stroke="#b5482d" stroke-width="3" fill="#b5482d"><line x1="330" y1="330" x2="330" y2="380"/><polygon points="330,394 322,376 338,376" stroke="none"/></g>
+<text x="345" y="372" font-size="16" fill="#b5482d">手一動，B 下端立刻往下</text>
+<text x="330" y="168" font-size="16" fill="#2a6f97">A 要變長：</text><text x="330" y="192" font-size="16" fill="#2a6f97">只能靠重物往下移</text>
+</svg><figcaption>A 的上端釘在天花板；B 的下端在手上。示意圖，不按比例。</figcaption></figure>
+<ul>
+<li><b>B</b>：下端在手上。手一往下猛拉，B 的下端立刻跟著往下，B 馬上被拉長，拉力馬上變大。</li>
+<li><b>A</b>：上端固定在天花板。A 要變長，唯一的辦法是<b>重物往下移</b>。重物不動，A 的長度就不變，拉力就停在原本的 <i>mg</i>。</li>
+</ul>
+<p>所以關鍵變成：猛拉那一瞬間，重物來得及往下移多少？</p>
+</section>
+
+<section><h2>重物來得及移多少：用 <i>a</i> = <i>F</i>/<i>m</i> 估</h2>
+<p>用一組數字估一次（以下為<b>設定與估算</b>，不是實測）：重物 1 kg；棉線大約 20 N 會斷；猛拉時，手在 0.01 s 內就把 B 拉到 20 N。</p>
+<p>B 的拉力一變大，重物受的合力向下，開始往下加速。就算把 20 N 當成從頭到尾都在（實際是慢慢增加，所以這樣算會<b>高估</b>重物移動的距離）：</p>
+<p class="eq"><i>a</i> = <i>F</i> / <i>m</i> = 20 / 1 = 20 m/s²<br><i>d</i> = ½ <i>a t</i>² = ½ × 20 × (0.01)² = 0.001 m = <b>1 mm</b></p>
+<p>那 A 需要再伸長多少才會斷？設 A 長 15 cm，棉線斷前大約伸長幾 %（估算，各種線不同），從不受力到斷約伸長 1 cm。A 原本撐著約 10 N，大約已經伸長一半，要斷還得<b>再伸長約 5 mm</b>。</p>
+<figure><svg viewBox="0 0 640 170" role="img" aria-label="長條比較：A 要斷需再伸長約 5 毫米，重物最多只移動 1 毫米">
+<text x="10" y="50" font-size="17">A 要斷還需伸長</text><rect x="180" y="30" width="400" height="30" fill="#2a6f97" opacity=".25" stroke="#2a6f97"/><text x="590" y="52" font-size="17">≈ 5 mm</text>
+<text x="10" y="120" font-size="17">重物最多移動</text><rect x="180" y="100" width="80" height="30" fill="#b5482d" opacity=".55"/><text x="270" y="122" font-size="17">≤ 1 mm</text>
+</svg><figcaption>估算值；長條依數字比例畫。</figcaption></figure>
+<p>重物只來得及往下移不到 1 mm，A 只多伸長這一點，拉力只比 10 N 多一兩牛頓，離 20 N 還很遠。B 卻已經被手拉到 20 N——<b>B 先斷</b>。這時 <i>T</i><sub>A</sub> = <i>mg</i> + <i>T</i><sub>B</sub> 不成立，因為重物在加速，不是平衡。</p>
+<div class="key"><b>所以「因為慣性」說的是：</b>重物質量大，同樣的力在這麼短的時間裡，只能讓它移動一點點。重物沒跟上，A 就沒被拉長，手的力全壓在 B 上。慣性不是多出來的一個力，是質量讓重物「動得慢」。</div>
+</section>
+
+<section><h2>想一想</h2>
+<div class="key"><b>把重物換成一根迴紋針（約 1 g），再猛拉 B，還一定是 B 先斷嗎？</b>
+<details><summary>看想法</summary>不一定，說不準。質量只有 1 kg 的千分之一，同樣的力讓它的加速度大一千倍，0.01 s 內就能移動好幾公分，A 跟得上被拉長。而且迴紋針的 <i>mg</i> 幾乎是 0，A 與 B 的拉力差不多，兩條線誰先斷要看哪條比較弱。重物愈重，「猛拉斷 B」就愈穩——質量愈大，慣性愈大。</details></div>
+</section>
+
+</main>
+</body>
+</html>

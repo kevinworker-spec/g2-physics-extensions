@@ -1,0 +1,212 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>彈簧兩端拉</title>
+<style>html{color-scheme:light}*{box-sizing:border-box}body{margin:0;background:#f7f5f0;color:#202a32;font:22px/1.8 "PingFang TC","Microsoft JhengHei",sans-serif}
+header.top,main{max-width:1040px;margin:auto;padding:30px 28px}header.top{padding-bottom:0}header.top small{color:#9b521e;font-size:16px}
+h1{font-size:clamp(32px,5vw,52px);line-height:1.4;margin:14px 0}h2{font-size:30px;line-height:1.5;margin:0 0 20px}p{margin:16px 0}
+section{margin:28px 0 64px}figure{margin:24px 0;background:white;border:1px solid #d5d9da;border-radius:12px;padding:18px}
+figcaption{font-size:17px;color:#56646d;line-height:1.6;margin-top:12px}.key{border-left:5px solid #b66a30;padding:12px 20px;background:#eeeae0}
+.eq{text-align:center;font-size:24px;margin:14px 0}
+details.q{margin:14px 0;background:white;border:1px dashed #b9c4c6;border-radius:10px;padding:8px 18px}details.q summary{cursor:pointer;color:#286d8c;font-weight:700}
+.foot{font-size:16px;color:#647079}
+@media(max-width:650px){body{font-size:19px}header.top,main{padding:20px 16px}h2{font-size:25px}figure{padding:10px}section{margin-bottom:45px}}
+
+/* 互動圖（沿用原圖像，白底） */
+
+:root{
+  
+  --bg:#ffffff; --panel:#f1efe9; --line:#c9cfd1;
+  --fg:#202a32; --muted:#5d6a72;
+  --hand:#c96a00;     /* 手的拉力 */
+  --wall:#1f6fb4;     /* 牆的拉力 */
+  --len:#2b7a3d;      /* 伸長量 */
+  --wrong:#c0392b;    /* 錯誤想法 */
+  --f-body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+}
+.stage{position:relative;width:100%;aspect-ratio:16/9;max-height:74vh;margin:0 auto;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--bg)}
+.stage:fullscreen{max-height:none;border:0;border-radius:0}
+canvas{display:block;width:100%;height:100%}
+.cap{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:12px 18px;font-size:clamp(1rem,2vw,1.35rem);line-height:1.7}
+.cap .h{color:var(--hand);font-weight:700}.cap .w{color:var(--wall);font-weight:700}.cap .n{color:var(--len);font-weight:700}
+.ctl{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;font-size:clamp(.85rem,1.3vw,1rem)}
+.ctl button{font:inherit;color:var(--fg);background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:.4em 1em;cursor:pointer}
+.ctl button:focus-visible,.ctl input:focus-visible{outline:2px solid var(--wall);outline-offset:2px}
+.ctl label{display:flex;align-items:center;gap:6px;white-space:nowrap}
+.ctl input[type=range]{width:min(260px,60vw);accent-color:var(--hand)}
+.sim .cap,.sim .result{margin-top:12px;font-size:19px}.sim .ctl{margin-top:12px}
+</style></head><body>
+<header class="top"><small>延伸｜2-3 生活中常見的力｜彈力</small><h1>兩端各拉 400，<br>彈簧是被拉 400 還是 800？</h1><p>兩條完全相同的彈簧。A 一端綁在牆上，另一端用手拉 200 公克重，伸長 15 公分。B 兩端各用一隻手拉 400 公克重。B 伸長多少？先猜，再往下讀。</p></header>
+<main>
+<section><h2>牆有沒有在拉？</h2>
+<p>先看 A。手往右拉 200 公克重，彈簧卻停著不動。一個靜止的東西，受的力要互相抵消；如果只有手往右拉，彈簧會被整條拉走。所以一定有一個往左的力，而能往左拉它的只有牆：<b>牆用 200 公克重往左拉住彈簧的左端</b>。</p>
+<p>牆不是自己會拉。彈簧被拉長，左端把牆往右扯；牆被扯，就反過來把彈簧往左拉回去，大小一樣。換句話說，「一端固定」只是把其中一隻手換成了牆。A 其實也是<b>兩端各被拉 200</b>，和 B 的情況一模一樣，只是 B 的兩隻手都是人。</p></section>
+<section><h2>伸長量看哪一個力？</h2>
+<p>把彈簧想成一節一節接起來的小彈簧。整條靜止時，每一節都被左右兩邊用同樣大小的力拉著；A 的每一節被拉 200，B 的每一節被拉 400。每一節伸長多少，只看它自己被拉多大，整條的伸長就是各節加起來。</p>
+<p>所以伸長量由「<b>一端的拉力</b>」決定，不是兩端相加。彈簧秤也是這樣：讀數是一端的拉力。要讓彈簧被拉 800，得要一端 800、另一端也 800。</p>
+<p>下圖上排是 A、下排是 B，兩條左端對齊。可以先藏牆的力，自己判斷牆在做什麼；再打開「兩端加起來」，看把 400＋400 當成 800 會算出多長。</p></section>
+<figure class="sim">
+<div class="stage" id="stage"><canvas id="cv" aria-label="上排 A 彈簧一端固定在牆上、另一端用手拉；下排 B 彈簧兩端各用手拉。箭頭標出各端拉力，綠色標出伸長量"></canvas></div>
+<div class="cap" id="cap" aria-live="polite"></div>
+<div class="ctl">
+    <label for="fa">A 的拉力 <input id="fa" type="range" min="0" max="400" step="10" value="200"></label>
+    <label for="fb">B 每端的拉力 <input id="fb" type="range" min="0" max="400" step="10" value="400"></label>
+    <label for="hide"><input id="hide" type="checkbox"> 先藏牆的力</label>
+    <label for="ghost"><input id="ghost" type="checkbox"> 「兩端加起來」會怎樣</label>
+    <button id="ex">回到題目</button>
+    <button id="fs">全螢幕</button>
+  </div>
+<figcaption>兩條相同的理想彈簧（質量不計、靜止）。k 由 A 的數據定：200 公克重伸長 15 公分。箭頭長度與力成正比；伸長只畫在右邊，只標總伸長量。</figcaption></figure>
+<section><p>B 每端被拉 400，是 A 的 2 倍，所以伸長也是 2 倍：</p>
+<div class="eq">15 公分 × 400／200 ＝ 30 公分</div>
+<p>若把兩端加成 800，會算出 60 公分，等於多算了一倍。另一種想法是「兩端拉力相反，互相抵消，彈簧不伸長」：抵消的是<b>合力</b>，所以彈簧不會整條被拉走；但它兩端都在被拉，所以還是會伸長。</p>
+<p class="key">彈簧靜止時兩端的拉力一樣大。一端綁牆，牆就替你拉另一端。伸長量看一端的拉力：一端拉 F，就是被拉 F，不是 2F。</p></section>
+<section><h2>想一想</h2><p>彈簧秤兩端各綁一條繩子，繩子跨過兩個滑輪，各掛一個 1 公斤重的砝碼。彈簧秤的讀數是多少？</p>
+<details class="q"><summary>想好了再打開</summary><p><b>1 公斤重。</b>每一端都被拉 1 公斤重，和「一端綁牆、另一端掛 1 公斤重」完全一樣；另一個砝碼做的事，就是牆做的事。讀數不是 2 公斤重，也不是 0。</p></details></section>
+<p class="foot">數字為題目設定。理想彈簧：質量不計、遵守虎克定律、靜止時才保證兩端拉力相等。</p></main>
+<script>
+const $=id=>document.getElementById(id);
+const cv=$('cv'),ctx=cv.getContext('2d'),stage=$('stage');
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const C={bg:css('--bg'),fg:css('--fg'),muted:css('--muted'),line:css('--line'),panel:css('--panel'),H:css('--hand'),W:css('--wall'),N:css('--len'),X:css('--wrong')};
+const FONT=css('--f-body');
+
+const K=200/15;                 // 公克重/公分
+const S={FA:200,FB:400,hide:false,ghost:false};
+
+const LW=1600,LH=900;
+let dpr=1,scale=1,ox=0,oy=0;
+function resize(){
+  const r=stage.getBoundingClientRect();
+  dpr=Math.min(window.devicePixelRatio||1,2);
+  cv.width=Math.max(1,r.width*dpr);cv.height=Math.max(1,r.height*dpr);
+  scale=Math.min(r.width/LW,r.height/LH);ox=(r.width-LW*scale)/2;oy=(r.height-LH*scale)/2;
+  draw();
+}
+new ResizeObserver(resize).observe(stage);
+
+const L0=240, PX=11, AS=0.55;   // 原長（像素）、每公分幾像素、每公克重幾像素
+const fmt=n=>{const a=Math.abs(n);return Math.abs(a-Math.round(a))<0.05?String(Math.round(a)):a.toFixed(1);};
+
+function arrow(x1,y,x2,col,w=8){
+  const d=Math.sign(x2-x1); if(!d) return;
+  const head=Math.min(26,Math.abs(x2-x1));
+  ctx.strokeStyle=col;ctx.fillStyle=col;ctx.lineWidth=w;
+  ctx.beginPath();ctx.moveTo(x1,y);ctx.lineTo(x2-d*head*0.9,y);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(x2,y);ctx.lineTo(x2-d*head,y-head*0.6);ctx.lineTo(x2-d*head,y+head*0.6);ctx.closePath();ctx.fill();
+}
+function text(s,x,y,col,size=28,align='center',weight=700){
+  ctx.fillStyle=col;ctx.font=`${weight} ${size}px ${FONT}`;ctx.textAlign=align;ctx.textBaseline='middle';ctx.fillText(s,x,y);
+}
+function spring(x1,x2,y,col){
+  const lead=30,N=8,ry=24,rx=20;
+  const a=x1+lead,len=(x2-lead)-a;
+  ctx.strokeStyle=col;ctx.lineWidth=4;ctx.lineJoin='round';
+  ctx.beginPath();ctx.moveTo(x1,y);ctx.lineTo(a,y);
+  const steps=N*48;
+  for(let i=0;i<=steps;i++){const s=i/steps*N*2*Math.PI,u=i/steps;
+    ctx.lineTo(a+u*len-rx*Math.sin(s), y-ry*(1-Math.cos(s)));}
+  ctx.lineTo(x2,y);ctx.stroke();
+}
+// 伸長量標示：從原長端點到現在端點
+function stretchMark(xNat,xNow,y,dx){
+  ctx.setLineDash([6,8]);ctx.strokeStyle=C.muted;ctx.lineWidth=2;
+  ctx.beginPath();ctx.moveTo(xNat,y-70);ctx.lineTo(xNat,y+70);ctx.stroke();ctx.setLineDash([]);
+  text('原長',xNat,y-84,C.muted,20,'center',400);
+  if(dx<0.05) return;
+  const yy=y+50, s=Math.sign(xNow-xNat);
+  ctx.strokeStyle=C.N;ctx.lineWidth=3;
+  ctx.beginPath();ctx.moveTo(xNat,yy);ctx.lineTo(xNow,yy);ctx.stroke();
+  [xNat,xNow].forEach(x=>{ctx.beginPath();ctx.moveTo(x,yy-10);ctx.lineTo(x,yy+10);ctx.stroke();});
+  text(`伸長 ${fmt(dx)} 公分`,(xNat+xNow)/2,yy+28,C.N,24);
+}
+function handLabel(x,y,F,col,who,align){ text(`${who} ${fmt(F)}`,x,y,col,26,align); }
+
+function draw(){
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  ctx.fillStyle=C.bg;ctx.fillRect(0,0,cv.width,cv.height);
+  ctx.setTransform(dpr*scale,0,0,dpr*scale,dpr*ox,dpr*oy);
+
+  const dA=S.FA/K, dB=S.FB/K;
+
+  // ── A：一端固定 ──
+  const YA=230, WX=560;
+  text('A',90,YA+40,C.fg,44,'left',900);
+  text('一端固定在牆上',90,YA+86,C.muted,22,'left',400);
+  ctx.strokeStyle=C.fg;ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(WX,YA-90);ctx.lineTo(WX,YA+60);ctx.stroke();
+  ctx.strokeStyle=C.muted;ctx.lineWidth=2;
+  for(let y=YA-86;y<YA+60;y+=16){ctx.beginPath();ctx.moveTo(WX,y);ctx.lineTo(WX-16,y+16);ctx.stroke();}
+  const aEnd=WX+L0+dA*PX;
+  spring(WX,aEnd,YA,'#46555e');
+  stretchMark(WX+L0,aEnd,YA,dA);
+  if(S.FA>0){
+    arrow(aEnd,YA,aEnd+S.FA*AS,C.H);
+    handLabel(aEnd+S.FA*AS+14,YA,S.FA,C.H,'手拉','left');
+    // 牆的拉力：畫在牆上方，從接點往左
+    const wy=YA;
+    if(S.hide){ text('牆 ？',WX-30,wy,C.W,30,'right'); }
+    else{ arrow(WX,wy,WX-S.FA*AS,C.W,7); text(`牆拉 ${fmt(S.FA)}`,WX-S.FA*AS-14,wy,C.W,26,'right'); }
+  }
+
+  ctx.strokeStyle=C.line;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(60,430);ctx.lineTo(1540,430);ctx.stroke();
+
+  // ── B：兩端各拉 ──
+  // A、B 左端放在同一個位置（WX）不動，伸長畫在右邊，只標總伸長量。
+  const YB=640, nl=WX, nr=WX+L0, br=nr+dB*PX;
+  // 貫穿兩排的對齊線：左端、原長
+  ctx.setLineDash([6,8]);ctx.strokeStyle=C.muted;ctx.lineWidth=2;
+  [nl,nr].forEach(x=>{ctx.beginPath();ctx.moveTo(x,YA+70);ctx.lineTo(x,YB+70);ctx.stroke();});
+  ctx.setLineDash([]);
+  text('B',90,YB+78,C.fg,44,'left',900);
+  text('兩端各用手拉',90,YB+124,C.muted,22,'left',400);
+  if(S.ghost&&S.FB>0){
+    const gy=YB-130, wh=2*S.FB/K*PX;   // 錯誤想法：兩端相加成 2F → 總伸長 2×
+    ctx.setLineDash([10,8]);ctx.strokeStyle=C.X;ctx.lineWidth=3;
+    ctx.beginPath();ctx.moveTo(nr,gy);ctx.lineTo(nr+wh,gy);ctx.stroke();ctx.setLineDash([]);
+    [nr,nr+wh].forEach(x=>{ctx.beginPath();ctx.moveTo(x,gy-10);ctx.lineTo(x,gy+10);ctx.stroke();});
+    ctx.fillStyle=C.bg;ctx.fillRect(nr+wh/2-250,gy-46,500,32);
+    text(`若把兩端加起來（${fmt(2*S.FB)}）：伸長 ${fmt(2*S.FB/K)} 公分 ✗`,nr+wh/2,gy-30,C.X,24,'center');
+  }
+  spring(nl,br,YB,'#46555e');
+  text('原長',nr,YB-84,C.muted,20,'center',400);
+  stretchMark(nr,br,YB,dB);
+  if(S.FB>0){
+    arrow(nl,YB,nl-S.FB*AS,C.H); handLabel(nl-S.FB*AS-14,YB,S.FB,C.H,'手拉','right');
+    arrow(br,YB,br+S.FB*AS,C.H); handLabel(br+S.FB*AS+14,YB,S.FB,C.H,'手拉','left');
+  }
+
+  // 底部比較
+  text(`A：一端的拉力 ${fmt(S.FA)} → 伸長 ${fmt(dA)} 公分　　B：一端的拉力 ${fmt(S.FB)} → 伸長 ${fmt(dB)} 公分`,800,850,C.fg,28,'center',500);
+  updateCap(dA,dB);
+}
+function updateCap(dA,dB){
+  const wall=S.hide?'彈簧沒有被拉走，<span class="w">牆有沒有在拉它</span>？'
+    :`彈簧沒有被拉走，因為<span class="w">牆也用 ${fmt(S.FA)} 公克重往左拉</span>——A 其實也是「兩端各被拉 ${fmt(S.FA)}」。`;
+  let r=S.FB/(S.FA||1);
+  const ratio=S.FA>0&&S.FA===S.FB?'一端的力一樣，伸長量就一樣。':S.FA>0&&S.FB>0?`B 每端的力是 A 的 ${fmt(r)} 倍，伸長量也是 ${fmt(r)} 倍。`:'';
+  $('cap').innerHTML=`A：<span class="h">手拉 ${fmt(S.FA)} 公克重</span>，${wall}<span class="n">伸長 ${fmt(dA)} 公分</span>。`+
+    `<br>B：<span class="h">兩端各拉 ${fmt(S.FB)} 公克重</span>，<span class="n">伸長 ${fmt(dB)} 公分</span>。${ratio}`;
+}
+
+function setA(v){S.FA=Math.max(0,Math.min(400,Math.round(v/10)*10));$('fa').value=S.FA;draw();}
+function setB(v){S.FB=Math.max(0,Math.min(400,Math.round(v/10)*10));$('fb').value=S.FB;draw();}
+$('fa').addEventListener('input',e=>{S.FA=+e.target.value;draw();});
+$('fb').addEventListener('input',e=>{S.FB=+e.target.value;draw();});
+$('hide').addEventListener('change',e=>{S.hide=e.target.checked;draw();});
+$('ghost').addEventListener('change',e=>{S.ghost=e.target.checked;draw();});
+$('ex').onclick=()=>{setA(200);setB(400);};
+$('fs').onclick=toggleFS;
+function toggleFS(){try{if(document.fullscreenElement)document.exitFullscreen();else if(stage.requestFullscreen)stage.requestFullscreen().catch(()=>{});}catch(e){}}
+
+window.addEventListener('keydown',e=>{
+  if(e.target.tagName==='INPUT'&&e.target.type==='range')return;
+  const st=e.shiftKey?50:10;
+  if(e.key==='ArrowRight'){setB(S.FB+st);e.preventDefault();}
+  else if(e.key==='ArrowLeft'){setB(S.FB-st);e.preventDefault();}
+  else if(e.key==='ArrowUp'){setA(S.FA+st);e.preventDefault();}
+  else if(e.key==='ArrowDown'){setA(S.FA-st);e.preventDefault();}
+  else if(e.key==='0'){setA(200);setB(400);}
+  else if(e.key==='h'||e.key==='H'){S.hide=!S.hide;$('hide').checked=S.hide;draw();}
+  else if(e.key==='g'||e.key==='G'){S.ghost=!S.ghost;$('ghost').checked=S.ghost;draw();}
+  else if(e.key==='Enter'&&e.target.tagName!=='BUTTON'){toggleFS();}
+});
+document.addEventListener('fullscreenchange',resize);
+resize();
+</script></body></html>

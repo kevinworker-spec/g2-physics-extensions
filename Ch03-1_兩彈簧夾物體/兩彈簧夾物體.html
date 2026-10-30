@@ -1,0 +1,263 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>兩彈簧夾物體</title>
+<style>html{color-scheme:light}*{box-sizing:border-box}body{margin:0;background:#f7f5f0;color:#202a32;font:22px/1.8 "PingFang TC","Microsoft JhengHei",sans-serif}
+header.top,main{max-width:1040px;margin:auto;padding:30px 28px}header.top{padding-bottom:0}header.top small{color:#9b521e;font-size:16px}
+h1{font-size:clamp(32px,5vw,52px);line-height:1.4;margin:14px 0}h2{font-size:30px;line-height:1.5;margin:0 0 20px}p{margin:16px 0}
+section{margin:28px 0 64px}figure{margin:24px 0;background:white;border:1px solid #d5d9da;border-radius:12px;padding:18px}
+figcaption{font-size:17px;color:#56646d;line-height:1.6;margin-top:12px}.key{border-left:5px solid #b66a30;padding:12px 20px;background:#eeeae0}
+.eq{text-align:center;font-size:24px;margin:14px 0}
+details.q{margin:14px 0;background:white;border:1px dashed #b9c4c6;border-radius:10px;padding:8px 18px}details.q summary{cursor:pointer;color:#286d8c;font-weight:700}
+.foot{font-size:16px;color:#647079}
+@media(max-width:650px){body{font-size:19px}header.top,main{padding:20px 16px}h2{font-size:25px}figure{padding:10px}section{margin-bottom:45px}}
+
+/* 互動圖（沿用原圖像，白底） */
+
+:root{
+  
+  --bg:#ffffff; --panel:#f1efe9; --line:#c9cfd1;
+  --fg:#202a32; --muted:#5d6a72;
+  --left:#1f6fb4;     /* 左彈簧的力 */
+  --right:#2b7a3d;    /* 右彈簧的力 */
+  --ext:#c96a00;      /* 外力 */
+  --f-body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+}
+.stage{position:relative;width:100%;aspect-ratio:16/9;max-height:74vh;margin:0 auto;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--bg)}
+.stage:fullscreen{max-height:none;border:0;border-radius:0}
+canvas{display:block;width:100%;height:100%;touch-action:none}
+.cap{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:12px 18px;font-size:clamp(1rem,2vw,1.35rem);line-height:1.7}
+.cap .l{color:var(--left);font-weight:700}.cap .r{color:var(--right);font-weight:700}.cap .e{color:var(--ext);font-weight:700}
+.ctl{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;font-size:clamp(.85rem,1.3vw,1rem)}
+.ctl button{font:inherit;color:var(--fg);background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:.4em 1em;cursor:pointer}
+.ctl button[aria-pressed="true"]{background:var(--ext);color:#fff;border-color:var(--ext);font-weight:700}
+.ctl button:focus-visible,.ctl input:focus-visible{outline:2px solid var(--left);outline-offset:2px}
+.ctl label{display:flex;align-items:center;gap:6px;white-space:nowrap}
+.ctl input[type=range]{width:min(320px,70vw);accent-color:var(--ext)}
+.grp{display:flex;gap:6px;align-items:center}
+.sim .cap,.sim .result{margin-top:12px;font-size:19px}.sim .ctl{margin-top:12px}
+</style></head><body>
+<header class="top"><small>延伸｜2-3 生活中常見的力｜彈力</small><h1>被壓短的彈簧，<br>也在出力嗎？</h1><p>一個物體夾在兩條彈簧中間，兩條彈簧的另一端都固定在牆上，彈性常數都是 5 公克重/公分，一開始都是原長，地面沒有摩擦。要把物體往右移 2 公分並停在那裡，外力要多大？很多人答 10 公克重。先想想 10 是怎麼來的，再往下讀。</p></header>
+<main>
+<section><h2>左邊那條：被拉長</h2>
+<p>物體往右移 2 公分，左彈簧被拉長 2 公分，它想縮回原長，就把物體往左拉：5×2＝10 公克重，<b>向左</b>。答 10 的人，算的就是這一條。</p></section>
+<section><h2>右邊那條：被壓短</h2>
+<p>右彈簧沒有被拉，但它被壓短了 2 公分。壓短的彈簧也想回到原長，它會把兩端<b>往外推開</b>：右端推牆，左端推物體。物體在右彈簧的左端，所以被推向左，也是 5×2＝10 公克重。</p>
+<p>判斷方向只要問一句：<b>彈簧想變長還是變短？</b>被拉長的想變短，把兩端往內拉；被壓短的想變長，把兩端往外推。不論拉或推，彈力都指向讓它回到原長的那一邊。</p>
+<p>所以兩條彈簧都把物體往左，一拉一推，合起來 20 公克重。物體要停在右移 2 公分處，外力要 <b>20 公克重向右</b>，剛好抵消。</p>
+<p>下圖可以拖物體或調外力。先勾「先藏右彈簧的力」，自己判斷右彈簧有沒有出力、往哪邊，再打開看。</p></section>
+<figure class="sim">
+<div class="stage" id="stage"><canvas id="cv" aria-label="兩條彈簧夾住一個物體，外力向右時左彈簧拉長、右彈簧壓短，兩條彈簧對物體的力都向左；下方是物體受力圖"></canvas></div>
+<div class="cap" id="cap" aria-live="polite"></div>
+<div class="ctl">
+    <label for="f">外力 <input id="f" type="range" min="-40" max="40" step="1" value="0"></label>
+    <span class="grp" role="group" aria-label="左彈簧彈性常數">左 k
+      <button data-side="L" data-k="5" aria-pressed="true">5</button>
+      <button data-side="L" data-k="10" aria-pressed="false">10</button>
+    </span>
+    <span class="grp" role="group" aria-label="右彈簧彈性常數">右 k
+      <button data-side="R" data-k="5" aria-pressed="true">5</button>
+      <button data-side="R" data-k="10" aria-pressed="false">10</button>
+    </span>
+    <label for="hide"><input id="hide" type="checkbox"> 先藏右彈簧的力</label>
+    <button id="zero">歸零</button>
+    <button id="ex">題目：右移 2 公分</button>
+    <button id="fs">全螢幕</button>
+  </div>
+<figcaption>理想彈簧（F＝kx）、地面無摩擦、物體停在新位置（受力平衡）。k 的單位是公克重/公分；箭頭長度與力成正比。下方是物體的受力圖。</figcaption></figure>
+<section><h2>兩條彈簧不一樣硬呢？</h2>
+<p>把左邊的 k 改成 10。物體移動多少，左彈簧就長多少、右彈簧就短多少，兩條的形變永遠一樣大；不一樣的是出力。外力 30 公克重向右時，物體右移 30÷(10＋5)＝2 公分，左彈簧拉 20、右彈簧推 10，方向都向左，加起來正好 30。</p>
+<p class="key">被壓短的彈簧也出力，方向是把兩端往外推。物體夾在兩條彈簧中間往一邊移，一條被拉長、一條被壓短，兩個彈力同方向，要加起來。</p></section>
+<section><h2>想一想</h2><p>把右邊那條彈簧拿掉，同樣要讓物體右移 2 公分並停住，外力要多大？夾著兩條 k＝5 的彈簧，像是一條 k 多少的彈簧？</p>
+<details class="q"><summary>想好了再打開</summary><p><b>10 公克重；像一條 k＝10 的彈簧。</b>只剩左彈簧，只有它的 10 公克重要抵消。兩條夾著時，移 1 公分就要 5＋5＝10 公克重，所以整體像一條 k＝10 的彈簧，比單獨一條硬了一倍。</p></details></section>
+<p class="foot">數字為題目設定。理想彈簧（虎克定律、質量不計），地面無摩擦。</p></main>
+<script>
+const $=id=>document.getElementById(id);
+const cv=$('cv'),ctx=cv.getContext('2d'),stage=$('stage');
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const C={bg:css('--bg'),fg:css('--fg'),muted:css('--muted'),line:css('--line'),panel:css('--panel'),L:css('--left'),R:css('--right'),E:css('--ext')};
+const FONT=css('--f-body');
+
+// 狀態：F＝外力（公克重，右為正）；x＝位移（公分）
+const S={F:0,kL:5,kR:5,hide:false};
+const FMAX=40;
+const kTot=()=>S.kL+S.kR;
+const xNow=()=>S.F/kTot();
+
+// 邏輯座標 1600×900，等比縮放到畫布
+const LW=1600,LH=900;
+let dpr=1,scale=1,ox=0,oy=0;
+function resize(){
+  const r=stage.getBoundingClientRect();
+  dpr=Math.min(window.devicePixelRatio||1,2);
+  cv.width=Math.max(1,r.width*dpr);cv.height=Math.max(1,r.height*dpr);
+  scale=Math.min(r.width/LW,r.height/LH);ox=(r.width-LW*scale)/2;oy=(r.height-LH*scale)/2;
+  draw();
+}
+new ResizeObserver(resize).observe(stage);
+
+// 場景尺寸
+const WALL_L=150,WALL_R=1450,FLOOR=380,BW=170,BH=120,CX0=800,PX=48; // PX：每公分幾像素
+const AXIS=FLOOR-BH/2;
+const AS=6; // 箭頭：每公克重幾像素
+
+const fmt=n=>{const a=Math.abs(n);return Math.abs(a-Math.round(a))<0.05?String(Math.round(a)):a.toFixed(1);};
+
+function arrow(x1,y,x2,col,w=8){
+  const d=Math.sign(x2-x1); if(!d) return;
+  const head=Math.min(26,Math.abs(x2-x1));
+  ctx.strokeStyle=col;ctx.fillStyle=col;ctx.lineWidth=w;ctx.lineCap='butt';
+  ctx.beginPath();ctx.moveTo(x1,y);ctx.lineTo(x2-d*head*0.9,y);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(x2,y);ctx.lineTo(x2-d*head,y-head*0.6);ctx.lineTo(x2-d*head,y+head*0.6);ctx.closePath();ctx.fill();
+}
+function text(s,x,y,col,size=30,align='center',weight=700){
+  ctx.fillStyle=col;ctx.font=`${weight} ${size}px ${FONT}`;ctx.textAlign=align;ctx.textBaseline='middle';ctx.fillText(s,x,y);
+}
+// 彈簧：兩端各一段直線，中間是一圈圈的線圈（擺線），被壓短時圈變密
+function spring(x1,x2,y,col){
+  const lead=34,N=7,ry=26,rx=24;
+  const a=x1+lead,len=(x2-lead)-a;
+  ctx.strokeStyle=col;ctx.lineWidth=4;ctx.lineJoin='round';
+  ctx.beginPath();ctx.moveTo(x1,y);ctx.lineTo(a,y);
+  const steps=N*48;
+  for(let i=0;i<=steps;i++){const s=i/steps*N*2*Math.PI,u=i/steps;
+    ctx.lineTo(a+u*len-rx*Math.sin(s), y-ry*(1-Math.cos(s)));}
+  ctx.lineTo(x2,y);ctx.stroke();
+}
+function wall(x,dir){ // dir：斜線往牆外
+  ctx.strokeStyle=C.fg;ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(x,AXIS-110);ctx.lineTo(x,FLOOR);ctx.stroke();
+  ctx.lineWidth=2;ctx.strokeStyle=C.muted;
+  for(let y=AXIS-104;y<FLOOR;y+=16){ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+dir*16,y+16);ctx.stroke();}
+}
+
+function draw(){
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  ctx.fillStyle=C.bg;ctx.fillRect(0,0,cv.width,cv.height);
+  ctx.setTransform(dpr*scale,0,0,dpr*scale,dpr*ox,dpr*oy);
+
+  const x=xNow(), cx=CX0+x*PX, bl=cx-BW/2, br=cx+BW/2;
+  const fL=-S.kL*x, fR=-S.kR*x; // 兩彈簧對物體的力（右為正）
+
+  // 地面
+  ctx.strokeStyle=C.fg;ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(WALL_L,FLOOR);ctx.lineTo(WALL_R,FLOOR);ctx.stroke();
+  ctx.strokeStyle=C.muted;ctx.lineWidth=2;
+  for(let xx=WALL_L;xx<WALL_R;xx+=18){ctx.beginPath();ctx.moveTo(xx+16,FLOOR);ctx.lineTo(xx,FLOOR+16);ctx.stroke();}
+  wall(WALL_L,-1);wall(WALL_R,1);
+
+  // 尺：0＝原來的位置
+  const RY=FLOOR+52;
+  ctx.strokeStyle=C.line;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(CX0-5*PX,RY);ctx.lineTo(CX0+5*PX,RY);ctx.stroke();
+  for(let i=-5;i<=5;i++){const tx=CX0+i*PX;ctx.strokeStyle=i?C.muted:C.fg;ctx.lineWidth=i?2:3;
+    ctx.beginPath();ctx.moveTo(tx,RY-(i?8:14));ctx.lineTo(tx,RY+(i?8:14));ctx.stroke();
+    text(String(i),tx,RY+30,i?C.muted:C.fg,20,'center',i?400:700);}
+  text('公分',CX0+5*PX+44,RY+30,C.muted,20,'center',400);
+  // 原位置虛線與位移
+  ctx.setLineDash([8,8]);ctx.strokeStyle=C.muted;ctx.lineWidth=2;
+  ctx.strokeRect(CX0-BW/2,AXIS-BH/2,BW,BH);ctx.setLineDash([]);
+  ctx.strokeStyle=C.fg;ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(cx,RY-18);ctx.lineTo(cx,RY+4);ctx.stroke();
+  ctx.fillStyle=C.fg;ctx.beginPath();ctx.moveTo(cx,RY-2);ctx.lineTo(cx-8,RY-16);ctx.lineTo(cx+8,RY-16);ctx.closePath();ctx.fill();
+
+  // 彈簧
+  spring(WALL_L,bl,AXIS,'#46555e');
+  spring(br,WALL_R,AXIS,'#46555e');
+  // 物體
+  ctx.fillStyle=C.panel;ctx.strokeStyle=C.fg;ctx.lineWidth=4;
+  ctx.fillRect(bl,AXIS-BH/2,BW,BH);ctx.strokeRect(bl,AXIS-BH/2,BW,BH);
+  text('物體',cx,AXIS,C.fg,28);
+
+  // 彈簧狀態與力：箭頭畫在各自彈簧正上方，方向＝彈簧對物體的力
+  const AY=150;
+  const state=(dx,k)=>Math.abs(dx)<0.005?'原長':(dx>0?`拉長 ${fmt(dx)} 公分`:`壓短 ${fmt(dx)} 公分`);
+  const midL=(WALL_L+bl)/2, midR=(br+WALL_R)/2;
+  text(`左彈簧 k = ${S.kL}　${state(x)}`,midL,AXIS-82,C.L,24,'center',500);
+  text(`右彈簧 k = ${S.kR}　${state(-x)}`,midR,AXIS-82,C.R,24,'center',500);
+  sideArrow(midL,AY,fL,C.L,x>0?'拉':'推',false);
+  sideArrow(midR,AY,fR,C.R,x>0?'推':'拉',S.hide);
+
+  // 外力：在物體右（或左）邊
+  if(Math.abs(S.F)>0){
+    const y=AXIS+36, s=Math.sign(S.F), start=s>0?br:bl, end=start+s*Math.abs(S.F)*AS;
+    arrow(start,y,end,C.E,9);
+    text(`外力 ${fmt(S.F)}`,end+s*12,y,C.E,26,s>0?'left':'right');
+  }
+
+  // 下方：物體受力圖
+  const FY=700, fbx=CX0, hw=60;
+  ctx.strokeStyle=C.line;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(120,540);ctx.lineTo(1480,540);ctx.stroke();
+  text('物體受力（單位：公克重）',120,580,C.muted,24,'left',500);
+  ctx.fillStyle=C.panel;ctx.strokeStyle=C.fg;ctx.lineWidth=3;
+  ctx.fillRect(fbx-hw,FY-50,2*hw,100);ctx.strokeRect(fbx-hw,FY-50,2*hw,100);
+  if(Math.abs(x)<0.005){
+    text('沒有外力，兩彈簧都在原長，不出力',fbx,FY+100,C.muted,26,'center',500);
+  }else{
+    fbdArrow(fbx,hw,FY-28,fL,C.L,'左彈簧'+(x>0?'拉':'推'),false);
+    fbdArrow(fbx,hw,FY+28,fR,C.R,'右彈簧'+(x>0?'推':'拉'),S.hide);
+    fbdArrow(fbx,hw,FY,S.F,C.E,'外力',false);
+    // 平衡式
+    const dirS=x>0?'向左':'向右', dirE=x>0?'向右':'向左';
+    if(S.hide) text(`左彈簧 ${fmt(fL)} ＋ 右彈簧 ？ ＝ 外力 ${fmt(S.F)}`,fbx,FY+110,C.fg,28);
+    else text(`左彈簧 ${fmt(fL)} ＋ 右彈簧 ${fmt(fR)} ＝ ${fmt(fL+fR)}（${dirS}）＝ 外力 ${fmt(S.F)}（${dirE}）`,fbx,FY+110,C.fg,28);
+  }
+  updateCap(x,fL,fR);
+}
+function sideArrow(mx,y,f,col,verb,hidden){
+  if(Math.abs(f)<0.005){text('不出力',mx,y,C.muted,26,'center',500);return;}
+  if(hidden){text('？',mx,y,col,40);return;}
+  const half=Math.abs(f)*AS*1.4/2, s=Math.sign(f);
+  arrow(mx-s*half,y,mx+s*half,col,8);
+  text(`${verb}物體 ${fmt(f)} 公克重${s<0?'，向左':'，向右'}`,mx,y-40,col,26);
+}
+function fbdArrow(cx,hw,y,f,col,label,hidden){
+  if(Math.abs(f)<0.005) return;
+  const s=Math.sign(f), start=cx+s*hw, end=start+s*Math.abs(f)*AS;
+  if(hidden){text(`${label.slice(0,3)} ？`,start+s*20,y,col,24,s>0?'left':'right');return;}
+  arrow(start,y,end,col,7);
+  text(`${label} ${fmt(f)}`,end+s*12,y,col,24,s>0?'left':'right');
+}
+function updateCap(x,fL,fR){
+  const cap=$('cap');
+  if(Math.abs(x)<0.005){cap.innerHTML='兩條彈簧都在原長，誰都不出力。把外力往右拉拉看。';return;}
+  const dir=x>0?'右':'左', sd=x>0?'向左':'向右';
+  const lv=x>0?'被拉長':'被壓短', rv=x>0?'被壓短':'被拉長';
+  const lVerb=x>0?'拉':'推', rVerb=x>0?'推':'拉';
+  const right=S.hide?`<span class="r">右彈簧${rv} ${fmt(x)} 公分，它有沒有對物體出力</span>`
+    :`<span class="r">右彈簧${rv} ${fmt(x)} 公分，${rVerb}物體 ${fmt(fR)} 公克重${sd}</span>`;
+  cap.innerHTML=`<span class="e">外力 ${fmt(S.F)} 公克重向${dir}</span>，物體${dir}移 ${fmt(x)} 公分。`+
+    `<span class="l">左彈簧${lv} ${fmt(x)} 公分，${lVerb}物體 ${fmt(fL)} 公克重${sd}</span>；${right}。`;
+}
+
+// 控制
+function setF(v){S.F=Math.max(-FMAX,Math.min(FMAX,Math.round(v)));$('f').value=S.F;draw();}
+$('f').addEventListener('input',e=>{S.F=+e.target.value;draw();});
+document.querySelectorAll('button[data-side]').forEach(b=>b.addEventListener('click',()=>{
+  const side=b.dataset.side;S['k'+side]=+b.dataset.k;
+  document.querySelectorAll(`button[data-side="${side}"]`).forEach(o=>o.setAttribute('aria-pressed',o===b?'true':'false'));
+  draw();}));
+$('hide').addEventListener('change',e=>{S.hide=e.target.checked;draw();});
+$('zero').onclick=()=>setF(0);
+$('ex').onclick=()=>{ // 題目設定：兩條 k=5，右移 2 公分
+  S.kL=5;S.kR=5;document.querySelectorAll('button[data-side]').forEach(o=>o.setAttribute('aria-pressed',o.dataset.k==='5'?'true':'false'));
+  setF(2*kTot());};
+$('fs').onclick=toggleFS;
+function toggleFS(){try{if(document.fullscreenElement)document.exitFullscreen();else if(stage.requestFullscreen)stage.requestFullscreen().catch(()=>{});}catch(e){}}
+
+// 拖動物體
+let drag=false;
+function toLogical(e){const r=cv.getBoundingClientRect();return{x:(e.clientX-r.left-ox)/scale,y:(e.clientY-r.top-oy)/scale};}
+cv.addEventListener('pointerdown',e=>{const p=toLogical(e),cx=CX0+xNow()*PX;
+  if(Math.abs(p.x-cx)<BW/2+30&&Math.abs(p.y-AXIS)<BH/2+30){drag=true;cv.setPointerCapture(e.pointerId);}});
+cv.addEventListener('pointermove',e=>{const p=toLogical(e),cx=CX0+xNow()*PX;
+  cv.style.cursor=(drag||(Math.abs(p.x-cx)<BW/2+30&&Math.abs(p.y-AXIS)<BH/2+30))?'grab':'default';
+  if(drag) setF((p.x-CX0)/PX*kTot());});
+const endDrag=()=>{drag=false;};
+cv.addEventListener('pointerup',endDrag);cv.addEventListener('pointercancel',endDrag);
+
+window.addEventListener('keydown',e=>{
+  if(e.target.tagName==='INPUT'&&e.target.type==='range')return;
+  const step=e.shiftKey?5:1;
+  if(e.key==='ArrowRight'){setF(S.F+step);e.preventDefault();}
+  else if(e.key==='ArrowLeft'){setF(S.F-step);e.preventDefault();}
+  else if(e.key==='0'){setF(0);}
+  else if(e.key==='h'||e.key==='H'){S.hide=!S.hide;$('hide').checked=S.hide;draw();}
+  else if(e.key==='Enter'&&e.target.tagName!=='BUTTON'){toggleFS();}
+});
+document.addEventListener('fullscreenchange',resize);
+resize();
+</script></body></html>
